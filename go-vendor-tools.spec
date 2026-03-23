@@ -3,6 +3,8 @@
 # License text: https://spdx.org/licenses/MIT
 
 %bcond manpages 1
+# Whether to enable any extras (not all dependencies are in RHEL)
+%bcond extras %[%{defined fedora} || %{defined epel}]
 # Whether to build the scancode extra
 %bcond scancode %{defined fedora}
 # Only run scancode tests (and install scancode at buildtime) when arch is not i386
@@ -27,8 +29,10 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 
 # Test dependencies
+%if %{with extras}
 BuildRequires:  askalono-cli
 BuildRequires:  trivy
+%endif
 
 %if %{with manpages}
 BuildRequires:  scdoc
@@ -67,7 +71,7 @@ Enhances:       go-vendor-tools
 
 
 %generate_buildrequires
-%pyproject_buildrequires -x all,test%{?with_scancode_tests:,scancode}
+%pyproject_buildrequires -x rpm,test%{?with_extras:,all}%{?with_scancode_tests:,scancode}
 
 
 %build
@@ -117,6 +121,7 @@ install -Dpm 0644 zsh_completions/* -t %{buildroot}%{zsh_completions_dir}/
 %if %{defined rhel} && %{undefined epel}
 export GVTT_FORCE_LICENSE_CHECK_ENABLE=1
 %endif
+%pyproject_check_import
 export MACRO_DIR=%{buildroot}%{_rpmmacrodir}
 %pytest
 
@@ -141,7 +146,9 @@ export MACRO_DIR=%{buildroot}%{_rpmmacrodir}
 %doc %{_docdir}/go-vendor-tools-doc/
 
 
+%if %{with extras} || %{defined eln}
 %pyproject_extras_subpkg -n go-vendor-tools all %{?with_scancode:scancode}
+%endif
 
 
 %changelog
