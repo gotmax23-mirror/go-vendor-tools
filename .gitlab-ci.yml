@@ -60,6 +60,7 @@ test:
       python3.11-devel
       python3.12-devel
       python3.13-devel
+      python3.14-devel
   script:
     - export GO_VENDOR_ARCHIVE_USE_MODULE_PROXY=1
     - |
