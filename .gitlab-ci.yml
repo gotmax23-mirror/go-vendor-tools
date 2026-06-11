@@ -55,7 +55,7 @@ test:
       test "$ERROR_ON_MISSING_INTERPRETERS" = "false" ||
       sudo dnf install
       --setopt=install_weak_deps=0 -y
-      python3.9
+      python3.9-devel
       python3.10-devel
       python3.11-devel
       python3.12-devel
