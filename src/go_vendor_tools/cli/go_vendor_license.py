@@ -399,7 +399,7 @@ def paths_relative_to_list(paths: Collection[Path], directory: Path) -> list[Pat
     ]
 
 
-def print_licenses(
+def print_licenses(  # noqa: PLR0917
     results: LicenseData,
     unlicensed_mods: Collection[Path],
     mode: str,
