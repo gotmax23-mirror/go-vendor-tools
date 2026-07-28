@@ -42,10 +42,13 @@ gocheck2 = "go_vendor_tools.cli.gocheck2:main"
 [project.optional-dependencies]
 # User-facing
 all = [
-    "argcomplete",
+    "go-vendor-tools[rpm]",
     "specfile",
     "tomlkit",
     "zstarfile",
+]
+rpm = [
+    "argcomplete",
 ]
 # Dependencies for the scancode backend
 scancode = [
@@ -75,7 +78,6 @@ typing = [
     "releaserr",
 ]
 test = [
-    "go-vendor-tools[all]",
     "pytest",
     "pytest-mock",
 ]
