@@ -3,10 +3,14 @@
 # License text: https://spdx.org/licenses/MIT
 
 %bcond manpages 1
-# Whether to enable any extras (not all dependencies are in RHEL)
+# Whether license scanner deps are wanted at buildtime
+%bcond license_scanners %[ %{defined fedora} || %{defined epel} ]
+# Whether to enable any extras (not all dependencies are in ELN)
 %bcond extras %[%{defined fedora} || %{defined epel}]
+
+# scancode-specific handling --- it has a lot of deps and is not packaged for EPEL.
 # Whether to build the scancode extra
-%bcond scancode %{defined fedora}
+%bcond scancode %[ %{with license_scanners} && %{defined fedora} ]
 # Only run scancode tests (and install scancode at buildtime) when arch is not i386
 %bcond scancode_tests %[ %{with scancode} && "%{_arch}" != "i386"]
 
@@ -28,11 +32,20 @@ BuildArch:      noarch
 
 BuildRequires:  python3-devel
 
+# Generate shell completions at buildtime
+BuildRequires:  python3-argcomplete
+
 # Test dependencies
-%if %{with extras}
+%if %{with license_scanners}
 BuildRequires:  askalono-cli
 BuildRequires:  trivy
 %endif
+# Specify these manually instead of using the test extra since it pulls in
+# extras deps not wanted in ELN.
+# TODO: Get rid of Python extras and switch to more fine-grained pyproject
+# dependency groups for dev deps.
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist pytest-mock}
 
 %if %{with manpages}
 BuildRequires:  scdoc
@@ -71,7 +84,7 @@ Enhances:       go-vendor-tools
 
 
 %generate_buildrequires
-%pyproject_buildrequires -x rpm,test%{?with_extras:,all}%{?with_scancode_tests:,scancode}
+%pyproject_buildrequires %{?with_extras:-x all} %{?with_scancode_tests:-x scancode}
 
 
 %build
@@ -146,6 +159,12 @@ export MACRO_DIR=%{buildroot}%{_rpmmacrodir}
 %doc %{_docdir}/go-vendor-tools-doc/
 
 
+# TODO(gotmax23): I don't like shipping extras without checking their
+# dependencies during %%pyproject_buildrequires.
+# I understand this is needed to keep the extra deps out of the ELN buildroot
+# but still ship the other bits in ELN extras, but it'd be ideal to be able to
+# actually ship a go-vendor-tools-epel package in ELN extras directly. Is that
+# something we can do?
 %if %{with extras} || %{defined eln}
 %pyproject_extras_subpkg -n go-vendor-tools all %{?with_scancode:scancode}
 %endif
