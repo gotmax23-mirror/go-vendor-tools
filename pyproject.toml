@@ -29,6 +29,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
+    # TODO: Is python-license-expression wanted in ELN/RHEL? Who is maintaining it?
     "license_expression",
     "tomli; python_version<'3.11'",
 ]
@@ -42,13 +43,10 @@ gocheck2 = "go_vendor_tools.cli.gocheck2:main"
 [project.optional-dependencies]
 # User-facing
 all = [
-    "go-vendor-tools[rpm]",
+    "argcomplete",
     "specfile",
     "tomlkit",
     "zstarfile",
-]
-rpm = [
-    "argcomplete",
 ]
 # Dependencies for the scancode backend
 scancode = [
@@ -78,6 +76,7 @@ typing = [
     "releaserr",
 ]
 test = [
+    "go-vendor-tools[all]",
     "pytest",
     "pytest-mock",
 ]
