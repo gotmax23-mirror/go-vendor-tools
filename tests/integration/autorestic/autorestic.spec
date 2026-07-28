@@ -36,6 +36,9 @@ BuildRequires:  python3-devel
 
 %description %{common_description}
 
+# XXX: Test specfile is only supported on Fedora and EPEL (i.e., not RHEL or ELN)
+%if %{defined fedora} || %{defined epel}
+
 %prep
 %goprep -A
 %setup -q -T -D -a1 %{forgesetupargs}
@@ -82,6 +85,7 @@ test "$(cat buildrequires)" = "trivy"
 %files -f %{go_vendor_license_filelist}
 %doc docs CHANGELOG.md DEVELOPMENT.md README.md
 %{_bindir}/autorestic
+%endif
 
 %changelog
 * Thu Feb 29 2024 Maxwell G <maxwell@gtmx.me> - 1.7.11-1
