@@ -68,6 +68,7 @@ jobs:
         additional_repos:
           - "copr://@go-sig/go-vendor-tools-dev"
           - https://dl.fedoraproject.org/pub/epel/testing/10/Everything/$basearch
+      fedora-eln-x86_64: {}
     trigger: pull_request
 
   - job: copr_build
@@ -82,6 +83,7 @@ jobs:
       - epel-10-x86_64
       - epel-9-aarch64
       - epel-9-x86_64
+      - fedora-eln-x86_64
     owner: "@go-sig"
     project: go-vendor-tools-dev
     trigger: commit
