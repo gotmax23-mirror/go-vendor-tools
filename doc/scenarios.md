@@ -7,6 +7,17 @@ SPDX-License-Identifier: MIT
 
 # Scenarios
 
+This document contains mini tutorials and examples to get started with Go
+packaging using Go Vendor Tools.
+The reference pages on this docsite provide additional details on the usage and
+configuration of go-vendor-tools.
+The [Golang Packaging Guidelines] provide more prescriptive guidelines about
+packaging software written in Go in Fedora.
+Following the steps in this Scenarios document should yield a
+mostly Guidelines-compliant specfile.
+
+[Golang Packaging Guidelines]: https://docs.fedoraproject.org/en-US/packaging-guidelines/Golang/
+
 ## Generate specfile with go2rpm {: #generate-go2rpm}
 
 Example case: You wish to package `github.com/opencontainers/runc` using
@@ -44,6 +55,15 @@ with go-vendor-tools.
 
 1. Ensure that the final license only includes licenses allowed under the Fedora
    Licensing Guidelines.
+
+## Example specfile template {: #example-spec }
+
+See <https://docs.fedoraproject.org/en-US/packaging-guidelines/Golang/#_example>
+in the Packaging Guidelines for example specfile templates.
+If you are not using `go2rpm` as described above,
+you can use the steps in [Manually update specfile for new upstream version][#manual-update]
+to manually generate a vendor archive and run a license check once you have a
+complete specfile.
 
 ## Security updates {: #security-updates}
 

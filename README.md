@@ -13,7 +13,7 @@ Tools for handling Go library vendoring in Fedora
 
 ## Documentation
 
-<https://fedora.gitlab.io/sigs/go/go-vendor-tools/>
+<https://fedora.gitlab.io/sigs/go/go-vendor-tools/scenarios>
 
 ## Author
 
