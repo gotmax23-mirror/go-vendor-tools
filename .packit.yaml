@@ -86,3 +86,27 @@ jobs:
     project: go-vendor-tools-dev
     trigger: commit
     branch: main
+
+  # Separate jobs for ELN due to different supported integration test specfiles
+  - job: copr_build
+    packages:
+      - go-vendor-tools
+      # Not supported on ELN
+      # - autorestic
+      - fzf
+    targets:
+      fedora-eln-x86_64: {}
+    trigger: pull_request
+
+  - job: copr_build
+    packages:
+      - go-vendor-tools
+      # Not supported on ELN
+      # - autorestic
+      - fzf
+    targets:
+      fedora-eln-x86_64: {}
+    owner: "@go-sig"
+    project: go-vendor-tools-dev
+    trigger: commit
+    branch: main
