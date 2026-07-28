@@ -45,4 +45,7 @@ ignore = [
 ]
 
 [lint.extend-per-file-ignores]
-"tests/*" = ["ARG"]
+"tests/*" = [
+    "ARG",
+    "PLR0917",  # too many posargs
+]
