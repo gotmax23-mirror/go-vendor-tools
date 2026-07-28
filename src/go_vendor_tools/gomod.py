@@ -18,7 +18,7 @@ def get_go_module_names(directory: Path, allow_missing: bool = True) -> dict[str
     results: dict[str, str] = {}
     try:
         fp = (directory / "vendor/modules.txt").open("r", encoding="utf-8")
-    except FileNotFoundError:
+    except (FileNotFoundError, NotADirectoryError):
         if not allow_missing:
             raise
         return results
