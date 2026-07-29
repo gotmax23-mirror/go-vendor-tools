@@ -39,7 +39,10 @@ cp -p %{S:7} src/
 
 %generate_buildrequires
 %go_vendor_license_buildrequires -c %{S:3}
+# trivy is only available in Fedora
+%if %{defined fedora}
 %go_vendor_license_buildrequires -c %{S:3} -d trivy
+%endif
 
 %build
 %global gomodulesmode GO111MODULE=on
@@ -49,15 +52,23 @@ cp -p %{S:7} src/
 %install
 # Check go_vendor_license_buildrequires
 (%{go_vendor_license_buildrequires -d askalono}) | tee buildrequires
+%if %?go_vendor_license_check_disable
+test -z "$(cat buildrequires)"
+%else
 test "$(cat buildrequires)" = "askalono-cli"
+%endif
+%if %{defined fedora}
 (%{go_vendor_license_buildrequires -d trivy}) | tee buildrequires
 test "$(cat buildrequires)" = "trivy"
+%endif
 # Specify -n manually for testing purposes
 %go_vendor_license_install -n not-fzf -c %{S:3} -D askalono_path=/usr/bin/askalono
 
 %check
 %go_vendor_license_check -c %{S:3}
+%if %{defined fedora}
 %go_vendor_license_check -d trivy -c %{S:3}
+%endif
 
 diff -u "%{S:2}" "$(pwd)/licenses.list"
 
