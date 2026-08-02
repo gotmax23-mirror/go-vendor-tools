@@ -9,6 +9,11 @@ srpm_build_deps:
   - rpmdevtools
   - /usr/bin/unshare
   - wget
+  # XXX: This may cause a bootstrap issue.
+  # If bootstrapping is necessary, remove this dep and remove the explicit
+  # $GO_VENDOR_ARCHIVE overrides below.
+  - go-vendor-tools
+  - python3-specfile
 # This messes up wait-for-copr, since each merge commit has a different commit
 # hash and then fclogr calculates a different NVR than what the actual package
 # built.
@@ -33,7 +38,9 @@ packages:
     actions:
       fix-spec-file: []
       create-archive:
-        - bash -x ../../../contrib/integration-archive.sh
+        - >-
+          env GO_VENDOR_ARCHIVE=/usr/bin/go_vendor_archive
+          bash -x ../../../contrib/integration-archive.sh
       post-upstream-clone:
         - bash -x ../../../contrib/wait-for-copr.sh
     osh_diff_scan_after_copr_build: false
@@ -44,7 +51,9 @@ packages:
     actions:
       fix-spec-file: []
       create-archive:
-        - bash -x ../../../contrib/integration-archive.sh
+        - >-
+          env GO_VENDOR_ARCHIVE=/usr/bin/go_vendor_archive
+          bash -x ../../../contrib/integration-archive.sh
       post-upstream-clone:
         - bash -x ../../../contrib/wait-for-copr.sh
     osh_diff_scan_after_copr_build: false
