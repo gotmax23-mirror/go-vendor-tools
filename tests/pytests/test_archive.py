@@ -13,6 +13,7 @@ from go_vendor_tools.cli.go_vendor_archive import (
     CreateArchiveArgs,
     OverrideArgs,
     create_archive,
+    main,
     override_command,
 )
 from go_vendor_tools.config.base import create_base_config, load_config
@@ -70,6 +71,19 @@ def test_load_config_missing_file_raises(tmp_path: Path) -> None:
         ConfigError, match=r"Configuration file does not exist:.*--write-config"
     ):
         load_config(missing, allow_missing=False)
+
+
+def test_vendor_archive_specfile_without_specfile(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    spec_path = tmp_path / "test.spec"
+    spec_path.touch()
+    monkeypatch.setattr("go_vendor_tools.cli.go_vendor_archive.HAS_SPECFILE", False)
+    with pytest.raises(
+        SystemExit,
+        match="Passing the path to a specfile is not supported",
+    ):
+        main(["create", str(spec_path)])
 
 
 def test_vendor_archive_write_config(tmp_path: Path) -> None:
