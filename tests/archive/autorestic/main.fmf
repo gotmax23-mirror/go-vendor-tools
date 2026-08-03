@@ -1,0 +1,6 @@
+# Copyright (C) 2026 Maxwell G <maxwell@gtmx.me>
+# SPDX-License-Identifier: MIT
+
+summary: Create the autorestic vendor archive
+test: bash ../run.sh autorestic
+duration: 15m

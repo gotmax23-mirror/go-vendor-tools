@@ -7,7 +7,6 @@ srpm_build_deps:
   - git-core
   - pipx
   - rpmdevtools
-  - /usr/bin/unshare
   - wget
   # XXX: This may cause a bootstrap issue.
   # If bootstrapping is necessary, remove this dep and remove the explicit
@@ -80,6 +79,17 @@ jobs:
           - https://dl.fedoraproject.org/pub/epel/testing/10/Everything/$basearch
     trigger: pull_request
 
+  - job: tests
+    packages:
+      - go-vendor-tools
+    tmt_plan: /plans/archive
+    targets:
+      - fedora-all-x86_64
+      - fedora-eln-x86_64
+      - epel-9-x86_64
+      - epel-10-x86_64
+    trigger: pull_request
+
   - job: copr_build
     packages:
       - go-vendor-tools
@@ -94,5 +104,19 @@ jobs:
       - epel-9-x86_64
     owner: "@go-sig"
     project: go-vendor-tools-dev
+    trigger: commit
+    branch: main
+
+  - job: tests
+    packages:
+      - go-vendor-tools
+    tmt_plan: /plans/archive
+    targets:
+      - fedora-all-x86_64
+      - fedora-eln-x86_64
+      - epel-10-aarch64
+      - epel-10-x86_64
+      - epel-9-aarch64
+      - epel-9-x86_64
     trigger: commit
     branch: main
