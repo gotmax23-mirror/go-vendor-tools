@@ -1,0 +1,18 @@
+# Copyright (C) 2026 Maxwell G <maxwell@gtmx.me>
+# SPDX-License-Identifier: MIT
+
+summary: Test packaged vendor archive creation
+discover:
+  how: fmf
+  test: /tests/archive
+prepare:
+  how: install
+  package:
+    - go-vendor-tools
+    - golang-bin
+    - git-core
+    - python3-specfile
+    - rpmdevtools
+    - wget
+execute:
+  how: tmt

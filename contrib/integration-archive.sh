@@ -22,8 +22,13 @@ if [ -f "go-vendor-tools.toml" ]; then
     command+=("--config" "$(pwd)/go-vendor-tools.toml")
 fi
 time "${command[@]}" "$@" ./*.spec
-# Test idempotency by running again with networking disabled and a timeout
-# to make sure nothing is downloaded.
+
+echo Test idempotency by checking that running again does not replace the archive.
+# TODO(gotmax23): The code to detect the archive name is slop. Rewrite it to be more reasonable.
+vendor_archives=(./*-vendor.tar.*)
+test "${#vendor_archives[@]}" -eq 1
+archive_mtime="$(stat --format=%Y "${vendor_archives[0]}")"
 command+=("--idempotent")
-timeout 5 unshare -rn "${command[@]}" "$@" ./*.spec | grep 'already exists'
+"${command[@]}" "$@" ./*.spec | grep 'already exists'
+test "$(stat --format=%Y "${vendor_archives[0]}")" -eq "${archive_mtime}"
 sha512sum -c CHECKSUMS
