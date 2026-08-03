@@ -1,0 +1,21 @@
+# Copyright (C) 2026 Maxwell G <maxwell@gtmx.me>
+# SPDX-License-Identifier: MIT
+
+summary: Test vendor archive creation
+description: |
+  Checks the functionality of go_vendor_archive without optional python3-specfile support
+discover:
+  how: fmf
+  test: /tests/archive
+prepare+:
+  - how: install
+    package:
+      - go-vendor-tools
+      - golang-bin
+      - git-core
+      - rpmdevtools
+      - wget
+    exclude:
+      - go-vendor-tools+all
+execute:
+  how: tmt
