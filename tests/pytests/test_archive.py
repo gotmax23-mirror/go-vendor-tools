@@ -13,6 +13,7 @@ from go_vendor_tools.cli.go_vendor_archive import (
     CreateArchiveArgs,
     OverrideArgs,
     create_archive,
+    main,
     override_command,
 )
 from go_vendor_tools.config.base import create_base_config, load_config
@@ -72,7 +73,21 @@ def test_load_config_missing_file_raises(tmp_path: Path) -> None:
         load_config(missing, allow_missing=False)
 
 
+def test_vendor_archive_specfile_without_specfile(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    spec_path = tmp_path / "test.spec"
+    spec_path.touch()
+    monkeypatch.setattr("go_vendor_tools.cli.go_vendor_archive.HAS_SPECFILE", False)
+    with pytest.raises(
+        SystemExit,
+        match="Passing the path to a specfile is not supported",
+    ):
+        main(["create", str(spec_path)])
+
+
 def test_vendor_archive_write_config(tmp_path: Path) -> None:
+    pytest.importorskip("tomlkit", reason="requires tomlkit")
     args = CreateArchiveArgs.construct(
         subcommand="create",
         path=tmp_path,
@@ -90,6 +105,7 @@ def test_vendor_archive_write_config(tmp_path: Path) -> None:
 
 
 def test_vendor_archive_override(tmp_path: Path) -> None:
+    pytest.importorskip("tomlkit", reason="requires tomlkit")
     config_path = tmp_path / "config.toml"
     args = OverrideArgs(
         config_path=config_path, import_path="golang.org/x/sys", version="v0.6.0"

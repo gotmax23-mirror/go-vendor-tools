@@ -28,7 +28,7 @@ from go_vendor_tools.config.archive import (
 )
 from go_vendor_tools.config.base import BaseConfig, load_config
 from go_vendor_tools.exceptions import ArchiveError
-from go_vendor_tools.specfile import VendorSpecfile
+from go_vendor_tools.specfile import HAS_SPECFILE, VendorSpecfile
 
 try:
     import tomlkit
@@ -216,6 +216,14 @@ def parseargs(argv: list[str] | None = None) -> CreateArchiveArgs | OverrideArgs
 def _create_archive_read_from_specfile(args: CreateArchiveArgs) -> None:
     if args.output:
         sys.exit("Cannot pass --output when reading paths from a specfile!")
+    if not HAS_SPECFILE:
+        sys.exit(
+            "Passing the path to a specfile is not supported."
+            " Install the specfile library to enable this functionality"
+            " (or install the go-vendor-tools+all metapackage)"
+            " or manually pass the path to an archive or unpacked source tree, instead."
+            " See man go_vendor_archive_create for more information."
+        )
     spec_path = args.path
     args.path, args.output = VendorSpecfile(args.path).source0_and_source1()
     if not args.path.is_file():

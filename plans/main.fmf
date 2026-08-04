@@ -1,0 +1,8 @@
+# Copyright (C) 2026 Maxwell G <maxwell@gtmx.me>
+# SPDX-License-Identifier: MIT
+
+prepare:
+  - name: package-inventory
+    how: shell
+    order: 100
+    script: rpm -qa | sort | tee "$TMT_PLAN_DATA/rpmqa.txt"
