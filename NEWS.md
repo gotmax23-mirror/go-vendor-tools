@@ -5,6 +5,20 @@ SPDX-License-Identifier: MIT
 
 # NEWS
 
+## 0.13.0 - 2026-08-05 <a id='0.13.0'></a>
+
+This release includes changes needed for ELN and RHEL 11 along with
+misc. error handling and documentation improvements.
+
+- Set up CI and dependency minimization for ELN and RHEL 11 (Co-authored-by Yaakov Selkowitz)
+- archive: cleanly error when python3-specfile is not installed
+- archive: fail clearly when `--config` path is missing or invalid (thanks Mikel Olasagasti!)
+- Improve Scenarios documentation
+- Allow `go_vendor_license --use-archive` to be used with archive for non-Go projects.
+Previously, this would crash with an error about go.mod not existing.
+Note that using `go_vendor_license` for packages outside the Go ecosystem is
+**considered experimental**.
+
 ## 0.12.0 - 2026-04-22 <a id='0.12.0'></a>
 
 ### New features

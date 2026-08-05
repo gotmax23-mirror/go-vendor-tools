@@ -18,7 +18,7 @@
 %define tag v%{version_no_tilde %{quote:%nil}}
 
 Name:           go-vendor-tools
-Version:        0.12.0
+Version:        0.13.0
 %forgemeta
 Release:        1%{?dist}
 Summary:        Tools for handling Go library vendoring in Fedora
@@ -166,6 +166,9 @@ export MACRO_DIR=%{buildroot}%{_rpmmacrodir}
 
 
 %changelog
+* Wed Aug 05 2026 Maxwell G <maxwell@gtmx.me> - 0.13.0-1
+- Release 0.13.0.
+
 * Wed Apr 22 2026 Maxwell G <maxwell@gtmx.me> - 0.12.0-1
 - Release 0.12.0.
 
