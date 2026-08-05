@@ -7,10 +7,11 @@ import json
 from pathlib import Path
 from subprocess import CalledProcessError
 from typing import Any
+from unittest import mock
 
 import pytest
-from pytest_mock import MockerFixture
 
+from go_vendor_tools import gomod
 from go_vendor_tools.config.base import BaseConfig, load_config
 from go_vendor_tools.license_detection.askalono import AskalonoLicenseDetector
 from go_vendor_tools.license_detection.base import (
@@ -61,13 +62,9 @@ def test_load_dump_license_data(
     case_name: str,
     allowed_detectors: list[type[LicenseDetector]] | None,
     cli_config: dict[str, str],
-    mocker: MockerFixture,
 ) -> None:
     if allowed_detectors is not None and detector not in allowed_detectors:
         pytest.skip(f"{case_name} does use {detector}")
-
-    # Needed for case3
-    mocker.patch("go_vendor_tools.gomod.get_go_module_names", return_value={"abc": ""})
 
     case_dir = test_data / case_name
     expected_report = case_dir / "reports" / f"{detector.NAME}.json"
@@ -75,7 +72,9 @@ def test_load_dump_license_data(
     config = load_config(case_dir / "go-vendor-tools.toml", allow_missing=True)
     detector_obj = detector(cli_config, config["licensing"])
     try:
-        data: LicenseData = detector_obj.detect(licenses_dir, ("vendor/abc",))
+        # Needed for case3
+        with mock.patch.object(gomod, "get_go_module_names", return_value={"abc": ""}):
+            data: LicenseData = detector_obj.detect(licenses_dir, ("vendor/abc",))
     except Exception as exc:
         print(exc)
         if isinstance(exc, CalledProcessError):
