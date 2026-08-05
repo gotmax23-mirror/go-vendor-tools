@@ -4,3 +4,6 @@
 # NOTE(gotmax23): This is pulled in by scancode.
 # Newer versions of pyicu don't build on Fedora and no wheels are available.
 pyicu ~= 2.14.0
+
+# argcomplete 3.7.1 breaks py3.9 compat but does not set appropriate metadata
+argcomplete < 3.7.1; python_version <= '3.9'
