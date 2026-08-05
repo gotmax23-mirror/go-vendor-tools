@@ -45,7 +45,6 @@ BuildRequires:  trivy
 # TODO: Get rid of Python extras and switch to more fine-grained pyproject
 # dependency groups for dev deps.
 BuildRequires:  %{py3_dist pytest}
-BuildRequires:  %{py3_dist pytest-mock}
 
 %if %{with manpages}
 BuildRequires:  scdoc

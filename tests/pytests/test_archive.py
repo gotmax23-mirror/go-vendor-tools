@@ -5,10 +5,11 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from unittest import mock
 
 import pytest
-from pytest_mock import MockerFixture
 
+from go_vendor_tools.cli import go_vendor_archive
 from go_vendor_tools.cli.go_vendor_archive import (
     CreateArchiveArgs,
     OverrideArgs,
@@ -25,13 +26,7 @@ else:
     import tomlkit as tomllib
 
 
-def test_vendor_archive_base(mocker: MockerFixture, tmp_path: Path) -> None:
-    patched_run_command = mocker.patch(
-        "go_vendor_tools.cli.go_vendor_archive.run_command"
-    )
-    mocked_add_files_to_archive = mocker.patch(  # noqa F841
-        "go_vendor_tools.cli.go_vendor_archive.add_files_to_archive"
-    )
+def test_vendor_archive_base(tmp_path: Path) -> None:
     (directory := tmp_path / "directory").mkdir()
     config = create_base_config(
         {
@@ -54,7 +49,11 @@ def test_vendor_archive_base(mocker: MockerFixture, tmp_path: Path) -> None:
         config=config,
         write_config=False,
     )
-    create_archive(args)
+    with (
+        mock.patch.object(go_vendor_archive, "run_command") as patched_run_command,
+        mock.patch.object(go_vendor_archive, "add_files_to_archive"),
+    ):
+        create_archive(args)
     expected_calls = [
         ["go", "get", "golang.org/x/sys@v0.6.0"],
         ["go", "mod", "tidy"],
