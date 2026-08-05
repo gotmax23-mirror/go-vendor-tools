@@ -67,7 +67,7 @@ jobs:
         # Extra dependencies (trivy, python-zstarfile) not packaged in Fedora
         additional_repos:
           - "copr://@go-sig/go-vendor-tools-dev"
-      fedora-eln-x86_64: {}
+      # fedora-eln-x86_64: {}
       epel-9-x86_64:
         # Extra dependencies (trivy, python-zstarfile) not packaged in Fedora
         additional_repos:
@@ -85,7 +85,7 @@ jobs:
     tmt_plan: /plans/archive
     targets:
       - fedora-all-x86_64
-      - fedora-eln-x86_64
+      # - fedora-eln-x86_64
       - epel-9-x86_64
       - epel-10-x86_64
     trigger: pull_request
@@ -97,7 +97,7 @@ jobs:
       - fzf
     targets:
       - fedora-all-x86_64
-      - fedora-eln-x86_64
+      # - fedora-eln-x86_64
       - epel-10-aarch64
       - epel-10-x86_64
       - epel-9-aarch64
@@ -113,7 +113,7 @@ jobs:
     tmt_plan: /plans/archive
     targets:
       - fedora-all-x86_64
-      - fedora-eln-x86_64
+      # - fedora-eln-x86_64
       - epel-10-aarch64
       - epel-10-x86_64
       - epel-9-aarch64

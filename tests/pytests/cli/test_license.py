@@ -9,9 +9,9 @@ from io import StringIO
 from pathlib import Path
 from shutil import copy2
 from textwrap import dedent
+from unittest import mock
 
 import pytest
-from pytest_mock import MockerFixture
 
 from go_vendor_tools.cli import go_vendor_license, utils
 from go_vendor_tools.config.base import BaseConfig
@@ -53,7 +53,7 @@ def test_choose_license_detector_error_1(
 
 
 def test_choose_license_detector_error_2(
-    mocker: MockerFixture, capsys: pytest.CaptureFixture, config1: BaseConfig
+    capsys: pytest.CaptureFixture, config1: BaseConfig
 ) -> None:
     return_value: tuple[dict, dict] = (
         {},
@@ -62,12 +62,14 @@ def test_choose_license_detector_error_2(
             "123": LicenseDetectorNotAvailableError("123 is missing."),
         },
     )
-    gd_mock = mocker.patch(
-        "go_vendor_tools.cli.go_vendor_license.get_detectors",
+    with mock.patch.object(
+        go_vendor_license,
+        "get_detectors",
         return_value=return_value,
-    )
-    with pytest.raises(SystemExit, match="1"):
-        go_vendor_license.choose_license_detector(None, config1["licensing"], None)
+    ) as gd_mock:
+        with pytest.raises(SystemExit, match="1"):
+            go_vendor_license.choose_license_detector(None, config1["licensing"], None)
+        gd_mock.assert_called_once()
     out, err = capsys.readouterr()
     assert err == "Failed to load license detectors:\n"
     expected = """\
@@ -75,7 +77,6 @@ def test_choose_license_detector_error_2(
     ! 123: 123 is missing.
     """
     assert dedent(expected) == out
-    gd_mock.assert_called_once()
 
 
 def test_red() -> None:
