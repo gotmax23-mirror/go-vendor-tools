@@ -78,7 +78,8 @@ def add_files_to_archive(
 
 
 def get_toplevel_directory(tar: tarfile.TarFile) -> str | None:
-    first_parent = {PurePath(info.name).parts[0] for info in tar.getmembers()}
+    pure_paths = (PurePath(inf.name) for inf in tar.getmembers())
+    first_parent = {info.parts[0] for info in pure_paths if len(info.parts) > 0}
     if len(first_parent) == 1:
         return next(iter(first_parent))
     return None
