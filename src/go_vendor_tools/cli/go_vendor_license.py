@@ -245,7 +245,7 @@ def get_parser() -> argparse.ArgumentParser:
     verify_opts = report_parser.add_mutually_exclusive_group()
     verify_opts.add_argument(
         "--verify",
-        help="Verify license expression to make sure it matches caluclated expression",
+        help="Verify license expression to make sure it matches calculated expression",
         metavar="EXPRESSION",
     )
     verify_opts.add_argument(
@@ -285,8 +285,8 @@ def get_parser() -> argparse.ArgumentParser:
         default="all",
         help="""
         - `all` — print out a breakdown of all license files and their detected
-          license expression and then a final, cummluative expression.
-        - `expression` — print only the cummulative SPDX expression
+          license expression and then a final, cumulative expression.
+        - `expression` — print only the cumulative SPDX expression
         - `list` — print the file-by-file breakdown only
         """,
     )
@@ -295,12 +295,12 @@ def get_parser() -> argparse.ArgumentParser:
         "--write-config", help="Write a base config.", action="store_true"
     )
     help_msg = "Add manual license entry to a config file"
-    explict_parser = subparsers.add_parser(
+    explicit_parser = subparsers.add_parser(
         "explicit",
         help=help_msg,
         description=f"{help_msg}. See {MANUALLY_DETECTING_LICENSES_URL} for usage.",
     )
-    explict_parser.add_argument(
+    explicit_parser.add_argument(
         "-f",
         "--file",
         dest="license_file",
@@ -308,7 +308,7 @@ def get_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path to file (relative to CWD) to add to license config",
     )
-    explict_parser.add_argument("license_expression", help="SPDX license expression")
+    explicit_parser.add_argument("license_expression", help="SPDX license expression")
     install_parser = subparsers.add_parser(
         "install", description=f"INTERNAL: {install_command.__doc__}"
     )
@@ -457,7 +457,7 @@ class _PromptMissingResult(NamedTuple):
 
 
 # TODO(gotmax23): Unit test prompt_missing_licenses and write_config code.
-# This'll require some mocking of the input() stuff.
+# This will require some mocking of the input() stuff.
 def get_missing_licenses(
     data: LicenseData,
     entries: MutableSequence[LicenseEntry],
@@ -820,7 +820,7 @@ def install_command(args: argparse.Namespace) -> None:
         else:
             # NOTE(gotmax23): This is treated as an error for now.
             # Packagers can opt-out by passing -M.
-            # If we need to, we can make this check more flexible in the fututre.
+            # If we need to, we can make this check more flexible in the future.
             sys.exit("ERROR: No modules.txt file found")
     copy_licenses(
         directory,
