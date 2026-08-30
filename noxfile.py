@@ -38,7 +38,7 @@ COVERAGE_FAIL_UNDER = os.environ.get("COVERAGE_FAIL_UNDER") or (
     "90" if HAS_SCANCODE else "89"
 )
 
-nox.options.sessions = ("lint", "covtest")
+nox.options.sessions = ["lint", "covtest"]
 nox.options.error_on_external_run = True
 os.environ.setdefault("__GVT_TEST_MACROS", "1")
 
