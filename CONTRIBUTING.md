@@ -37,4 +37,4 @@ copr mock-config @go-sig/go-vendor-tools-dev fedora-rawhide-x86_64 > go-vendor-t
 fedpkg --release rawhide mockbuild --root go-vendor-tools.cfg
 ```
 
-[issue tracker]: https://gitlab.com/gotmax23/go-vendor-tools/-/issues
+[issue tracker]: https://gitlab.com/fedora/sigs/go/go-vendor-tools/-/work_items
