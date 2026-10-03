@@ -78,7 +78,20 @@ def add_files_to_archive(
 
 
 def get_toplevel_directory(tar: tarfile.TarFile) -> str | None:
-    first_parent = {PurePath(info.name).parts[0] for info in tar.getmembers()}
-    if len(first_parent) == 1:
-        return next(iter(first_parent))
+    # Filter nameless paths, fx. ./
+    root_items = [
+        (info[0].parts[0], len(info[0].parts), info[1])
+        for info in ((PurePath(inf.name), not inf.isdir()) for inf in tar.getmembers())
+        if len(info[0].parts) > 0
+    ]
+    # Is anything in the root not a directory
+    if any([x for x in root_items if x[2] and x[1] == 1]):
+        return None
+
+    # Is there only one item in the root?
+    root_dirs = {d[0] for d in root_items}
+
+    if len(root_dirs) == 1:
+        return root_dirs.pop()
+
     return None
