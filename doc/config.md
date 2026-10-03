@@ -46,7 +46,7 @@ Currently supported detectors are:
 1. askalono — the simplest backend.
    askalono fails to recognize license files containing multiple license texts
    and other complex cases, but its output can be supplemented with
-   [manual license entries](#licensing--licenses).
+   [manual license entries](#licenses-list-of-license-entry-tables).
    askalono is very slim and takes up less space than the other backends,
    speeding up package builds.
 2. scancode — the most powerful backend.
@@ -99,7 +99,7 @@ Key-value pairs that are passed to the detector backend.
     go_vendor_archive --detector-config multiple=true
     ```
 
-#### `licenses` (list of license entry tables) {: #licensing--licenses}
+#### `licenses` (list of license entry tables)
 
 License detectors are not perfect.
 The `detector.licenses` list allows packagers to manually specify license files
