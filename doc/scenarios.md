@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 <!-- pyml disable-num-lines 111 code-block-style -->
-
 # Scenarios
 
 This document contains mini tutorials and examples to get started with Go
@@ -18,7 +17,7 @@ mostly Guidelines-compliant specfile.
 
 [Golang Packaging Guidelines]: https://docs.fedoraproject.org/en-US/packaging-guidelines/Golang/
 
-## Generate specfile with go2rpm {: #generate-go2rpm}
+## Generate specfile with go2rpm
 
 Example case: You wish to package `github.com/opencontainers/runc` using
 vendored dependencies.
@@ -143,7 +142,7 @@ go2rpm was used to generate the original specfile using vendored dependencies.
 `go-vendor-tools.toml` is the configuration file for `go_vendor_archive`.
 
 !!! tip
-    Consider [re-generating a new specfile with `go2rpm`](#generate-go2rpm)
+    Consider [re-generating a new specfile with `go2rpm`](#generate-specfile-with-go2rpm)
     instead of updating an existing one to pick up go2rpm template
     improvements.
 
