@@ -3,7 +3,7 @@
 # Copyright (C) 2025 Maxwell G <maxwell@gtmx.me>
 # SPDX-License-Identifier: MIT
 
-# TODO: Once this code stablizies, we should consider moving it into
+# TODO: Once this code stabilizes, we should consider moving it into
 # go-rpm-macros.
 
 # TODO: Add unit tests. This is currently 92% covered, but only by integration

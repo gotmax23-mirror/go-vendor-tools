@@ -105,7 +105,7 @@ class ScancodeLicenseDetector(LicenseDetector[ScancodeLicenseData]):
     def detect(self, directory: StrPath, reuse_roots: Collection[StrPath] = ()):
         if self.find_only:
             raise ValueError(
-                "This cannot be called when class was initalized with find_only=True"
+                "This cannot be called when class was initialized with find_only=True"
             )
         directory = Path(directory)
         license_file_lists = find_license_files(
@@ -139,7 +139,7 @@ class ScancodeLicenseDetector(LicenseDetector[ScancodeLicenseData]):
     ) -> tuple[dict[Path, str], set[Path]]:
         if self.find_only:
             raise ValueError(
-                "This cannot be called when class was initalized with find_only=True"
+                "This cannot be called when class was initialized with find_only=True"
             )
         return get_scancode_license_data(
             directory if directory is not None else Path("/"), files
