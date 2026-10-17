@@ -227,7 +227,7 @@ class AskalonoLicenseDetector(LicenseDetector[AskalonoLicenseData]):
     ) -> AskalonoLicenseData:
         if self.find_only:
             raise ValueError(
-                "This cannot be called when class was initalized with find_only=True"
+                "This cannot be called when class was initialized with find_only=True"
             )
         gitignore = Path(directory, ".gitignore")
         if gitignore.is_file():
@@ -283,7 +283,7 @@ class AskalonoLicenseDetector(LicenseDetector[AskalonoLicenseData]):
     ) -> tuple[dict[Path, str], set[Path]]:
         if self.find_only:
             raise ValueError(
-                "This cannot be called when class was initalized with find_only=True"
+                "This cannot be called when class was initialized with find_only=True"
             )
         askalono_license_data = _get_askalono_data(
             directory if directory is not None else "/",

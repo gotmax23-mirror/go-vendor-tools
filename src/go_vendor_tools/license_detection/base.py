@@ -120,7 +120,7 @@ class LicenseData:
         undetected_licenses:
             Relative paths of license files that the license detector
             implementation failed to detect
-        unmatched_manaul_licenses:
+        unmatched_manual_licenses:
             Relative paths of invalid manually specified license entries
         extra_license_files:
             Relative paths to extra files (e.g., AUTHORS or NOTICE files) that
@@ -258,7 +258,7 @@ class LicenseDetector(Generic[_LicenseDataT_co], metaclass=abc.ABCMeta):
         license_config:
             LicenseConfig object passed to the constructor
         detector_config:
-            Options passeed to constructor
+            Options passed to constructor
         find_only: Whether find_only mode is enabled
     """
 
