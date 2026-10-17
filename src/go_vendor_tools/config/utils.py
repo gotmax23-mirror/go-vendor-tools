@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 """
-Utilities for reading configuartion
+Utilities for reading configuration
 """
 
 from __future__ import annotations

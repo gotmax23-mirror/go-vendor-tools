@@ -22,7 +22,7 @@ class MissingDependencyError(VendorToolsError):
 
 class LicenseError(VendorToolsError):
     """
-    An issue occured while detecting licenses
+    An issue occurred while detecting licenses
     """
 
 
@@ -34,5 +34,5 @@ class ConfigError(VendorToolsError):
 
 class ArchiveError(VendorToolsError):
     """
-    An issue occured while creating an archive
+    An issue occurred while creating an archive
     """
