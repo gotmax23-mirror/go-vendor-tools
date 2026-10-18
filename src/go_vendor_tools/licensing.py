@@ -143,12 +143,14 @@ def compare_licenses(
     license2: license_expression.LicenseExpression | str,
     /,
     allow_invalid: bool = True,
+    strict: bool = True,
 ) -> bool:
     if (
         simplified1 := _try_simplify_license(
             license1,
             f"Failed parsing calculated expression {license1}: ",
             allow_invalid=allow_invalid,
+            strict=strict,
         )
     ) is None:
         return False
@@ -158,6 +160,7 @@ def compare_licenses(
             license2,
             f"Failed parsing expected expression {license2}: ",
             allow_invalid=allow_invalid,
+            strict=strict,
         )
     ) is None:
         return False
@@ -170,9 +173,10 @@ def _try_simplify_license(
     parse_error_msg: str,
     *,
     allow_invalid: bool = True,
+    strict: bool = True,
 ) -> str | None:
     try:
-        return simplify_license(license_exp, validate=False)
+        return simplify_license(license_exp, validate=False, strict=strict)
     except license_expression.ExpressionError as e:
         if not allow_invalid:
             raise LicenseParsingError(parse_error_msg + str(e)) from None

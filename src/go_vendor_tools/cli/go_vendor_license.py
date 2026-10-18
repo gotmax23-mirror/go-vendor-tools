@@ -750,7 +750,9 @@ def report_command(args: argparse.Namespace) -> None:
                 spec.license = str(exp)
         if write_config:
             tomlkit_dump(loaded, cast(Path, config_path))
-    if verify and not compare_licenses(license_data.license_expression, verify):
+    if verify and not compare_licenses(
+        license_data.license_expression, verify, strict=False
+    ):
         raise VendorToolsError("Failed to verify license. Expected ^")
     sys.exit(failed)
 
