@@ -14,6 +14,8 @@ from typing import Any, cast
 import license_expression
 from boolean.boolean import DualBase
 
+from .exceptions import LicenseParsingError
+
 
 def get_fedora_licensing() -> license_expression.Licensing:
     """
@@ -89,7 +91,7 @@ def parse(
     expression: str | license_expression.LicenseExpression,
     validate: bool = True,
     strict: bool = True,
-) -> license_expression.LicenseExpression:
+) -> license_expression.LicenseExpression | None:
     """
     (Cached) Parse a string into a LicenseExpression object.
     """
@@ -138,15 +140,40 @@ def validate_license(expression: str) -> bool:
 
 def compare_licenses(
     license1: license_expression.LicenseExpression | str,
-    license2: str | license_expression.LicenseExpression | str,
+    license2: license_expression.LicenseExpression | str,
     /,
     allow_invalid: bool = True,
 ) -> bool:
-    try:
-        return simplify_license(license1, validate=False) == simplify_license(
-            license2, validate=False
+    if (
+        simplified1 := _try_simplify_license(
+            license1,
+            f"Failed parsing calculated expression {license1}: ",
+            allow_invalid=allow_invalid,
         )
-    except license_expression.ExpressionError:
+    ) is None:
+        return False
+
+    if (
+        simplified2 := _try_simplify_license(
+            license2,
+            f"Failed parsing expected expression {license2}: ",
+            allow_invalid=allow_invalid,
+        )
+    ) is None:
+        return False
+
+    return simplified1 == simplified2
+
+
+def _try_simplify_license(
+    license_exp: license_expression.LicenseExpression | str,
+    parse_error_msg: str,
+    *,
+    allow_invalid: bool = True,
+) -> str | None:
+    try:
+        return simplify_license(license_exp, validate=False)
+    except license_expression.ExpressionError as e:
         if not allow_invalid:
-            raise
-    return False
+            raise LicenseParsingError(parse_error_msg + str(e)) from None
+        return None

@@ -26,6 +26,12 @@ class LicenseError(VendorToolsError):
     """
 
 
+class LicenseParsingError(LicenseError):
+    """
+    An issue occured while detecting licenses
+    """
+
+
 class ConfigError(VendorToolsError):
     """
     Failed to load config
