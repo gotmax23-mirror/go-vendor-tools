@@ -32,6 +32,7 @@ dependencies = [
     # TODO: Is python-license-expression wanted in ELN/RHEL? Who is maintaining it?
     "license_expression",
     "tomli; python_version<'3.11'",
+    "pluggy < 1.7",
 ]
 requires-python = ">=3.9"
 
