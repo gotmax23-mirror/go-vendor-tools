@@ -43,6 +43,7 @@ from go_vendor_tools.gomod import (
 from go_vendor_tools.hashing import get_hash
 from go_vendor_tools.license_detection.base import LicenseData, LicenseDetector
 from go_vendor_tools.license_detection.load import DETECTORS, get_detectors
+from go_vendor_tools.license_detection.scancode import ScancodeLicenseDetector
 from go_vendor_tools.licensing import compare_licenses, simplify_license
 from go_vendor_tools.specfile import VendorSpecfile
 
@@ -680,6 +681,8 @@ def report_command(args: argparse.Namespace) -> None:
     del args
     go_mod_dir = global_config["general"]["go_mod_dir"]
 
+    strict_parsing = detector.NAME != ScancodeLicenseDetector.NAME
+
     if write_config:
         config_path, loaded = get_report_write_config_data(config_path, detector)
 
@@ -739,7 +742,9 @@ def report_command(args: argparse.Namespace) -> None:
             spec
             and update_spec
             and not compare_licenses(
-                spec.license, exp := license_data.license_expression
+                spec.license,
+                exp := license_data.license_expression,
+                strict=strict_parsing,
             )
         ):
             if failed:
@@ -751,7 +756,7 @@ def report_command(args: argparse.Namespace) -> None:
         if write_config:
             tomlkit_dump(loaded, cast(Path, config_path))
     if verify and not compare_licenses(
-        license_data.license_expression, verify, strict=False
+        license_data.license_expression, verify, strict=strict_parsing
     ):
         raise VendorToolsError("Failed to verify license. Expected ^")
     sys.exit(failed)
