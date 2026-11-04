@@ -5,6 +5,20 @@ SPDX-License-Identifier: MIT
 
 # Contributing
 
+## How do I file an issue?
+
+LLM-assisted issue reports are strongly discouraged in this repository.
+All contributions must follow the [Fedora AI-Assisted Contributions Policy](https://docs.fedoraproject.org/en-US/council/policy/ai-contribution-policy/).
+
+Use the [issue tracker] to report bugs or request enhancements.
+The default issue template is for bug reports.
+A full reproducer is required for bug reports.
+**Reports without a full reproducer or with uncompleted sections may be closed.**
+
+For enhancement requests, select **RFE** from GitLab's template selector and
+describe the problem or use case and requested behavior.
+The **Maintainer** template *may only be used* by the project's authors listed in `pyproject.toml`.
+
 ## What issues can I work on?
 
 See the [issue tracker] and issues marked with `help-wanted`, in particular,
