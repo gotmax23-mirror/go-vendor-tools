@@ -38,6 +38,7 @@ BuildRequires:  python3-argcomplete
 # Test dependencies
 %if %{with license_scanners}
 BuildRequires:  askalono-cli
+BuildRequires:  golang-bin
 BuildRequires:  trivy
 %endif
 # Specify these manually instead of using the test extra since it pulls in
