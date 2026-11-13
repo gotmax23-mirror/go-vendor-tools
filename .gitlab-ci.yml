@@ -11,6 +11,7 @@ default:
       git-core
       nox
       python3-devel
+      gcc-c++
 
 lint:
   script:
