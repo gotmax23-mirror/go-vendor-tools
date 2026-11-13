@@ -14,7 +14,7 @@ SPDX-FileCopyrightText = "None"
 SPDX-License-Identifier = "LicenseRef-Not-Copyrightable"
 
 [[annotations]]
-path = ["doc/man/**.scd", "doc/man/rpm_macros.md"]
+path = ["doc/man/**.scd", "doc/man/rpm_macros.md", ".gitlab/issue_templates/**.md"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 Maxwell G <maxwell@gtmx.me>"
 SPDX-License-Identifier = "MIT"
