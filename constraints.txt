@@ -7,3 +7,12 @@ pyicu ~= 2.14.0
 
 # argcomplete 3.7.1 breaks py3.9 compat but does not set appropriate metadata
 argcomplete < 3.7.1; python_version <= '3.9'
+
+# pluggy 1.7 breaks plugincode and scancode-toolkit
+# This was patched downstream in Fedora.
+# https://github.com/aboutcode-org/scancode-toolkit/issues/5363
+# https://github.com/aboutcode-org/scancode-toolkit/issues/5367
+# https://github.com/aboutcode-org/plugincode/issues/14
+# https://src.fedoraproject.org/rpms/scancode-toolkit/c/97c6b4755abb2b650a2ccaf11d4009d7856de4c2?branch=rawhide
+# https://src.fedoraproject.org/rpms/python-plugincode/c/b6236d78f44249b7b14f551f1e73fd91e2717806?branch=rawhide
+pluggy < 1.7
