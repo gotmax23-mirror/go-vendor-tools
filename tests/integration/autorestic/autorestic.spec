@@ -33,6 +33,7 @@ Source4:        scancode_go-vendor-tools.toml
 BuildRequires:  go-vendor-tools
 # For %%{python3_version}
 BuildRequires:  python3-devel
+BuildRequires:  moreutils %dnl For sponge
 
 %description %{common_description}
 
@@ -69,7 +70,24 @@ install -Dpm 0755 -t %{buildroot}%{_bindir} autorestic
 
 %check
 %go_vendor_license_check -c %{S:2}
-diff -u "%{S:3}" "$(pwd)/licenses.list"
+
+# TODO(gotmax23): Investigate what's going on with RHEL's golang.
+# It's copying extra files for fips support into %%{gobuilddir}.
+# e.g., %license /usr/share/licenses/test-autorestic/_build/pkg/mod/golang.org/fips140@v1.0.0-c2097c7c/LICENSE
+fix_license_list() {
+    local src dest
+    expected="$1"
+    actual="$2"
+    if grep -F /_build "$actual" >> "$expected"; then
+        for i in "$actual" "$expected"; do
+            sort "$i" | sponge "$i"
+        done
+    fi
+}
+
+cp -p "%{S:3}" licenses.list.expected
+fix_license_list licenses.list.expected licenses.list
+diff -u licenses.list.expected licenses.list
 test "$(cat buildrequires)" = "trivy"
 
 %if %scancode
