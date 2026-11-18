@@ -27,9 +27,6 @@ test:
         sudo dnf install -y epel-release /usr/bin/unzip wget
         crb enable
         sudo dnf install --setopt=install_weak_deps=0 -y epel-rpm-macros
-        sudo dnf install --enablerepo=epel-testing -y trivy
-      else
-        sudo dnf install -y trivy
       fi
       sudo dnf install --setopt=install_weak_deps=0 -y askalono-cli
     - >-
@@ -43,13 +40,21 @@ test:
       libicu-devel
       libxml2-devel
       libxslt-devel
-      pipx
       python3-devel
+      python3-pip
       redhat-rpm-config
       rpm-build
       rpmdevtools
+      trivy
       /usr/bin/unshare
       wget
+    # Install pipx
+    - |-
+      if [ -n "$(rpm -E '%{?rhel}')" = "9" ]; then
+        python3 -m pip install --user pipx
+      else
+        sudo dnf install -y pipx
+      fi
     # Only test alternative Python interpreters on one release to avoid
     # resource wastage
     - >-
