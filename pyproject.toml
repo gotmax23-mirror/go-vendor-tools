@@ -147,6 +147,9 @@ style = "fenced"
 # False positives
 [tool.pymarkdown.plugins.no-emphasis-as-heading]
 enabled = false
+# Doesn't work with custom anchor ids
+[tool.pymarkdown.plugins.link-fragments]
+enabled = false
 
 
 [tool.coverage.run]
