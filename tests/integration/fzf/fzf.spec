@@ -28,6 +28,7 @@ ExclusiveArch:  %{golang_arches_future}
 
 BuildRequires:  go-rpm-macros
 BuildRequires:  go-vendor-tools
+BuildRequires:  moreutils %dnl For sponge
 
 %description %{common_description}
 
@@ -70,7 +71,23 @@ test "$(cat buildrequires)" = "trivy"
 %go_vendor_license_check -d trivy -c %{S:3}
 %endif
 
-diff -u "%{S:2}" "$(pwd)/licenses.list"
+# TODO(gotmax23): Investigate what's going on with RHEL's golang.
+# It's copying extra files for fips support into %%{gobuilddir}.
+# e.g., %license /usr/share/licenses/test-autorestic/_build/pkg/mod/golang.org/fips140@v1.0.0-c2097c7c/LICENSE
+fix_license_list() {
+    local src dest
+    expected="$1"
+    actual="$2"
+    if grep -F /_build "$actual" >> "$expected"; then
+        for i in "$actual" "$expected"; do
+            sort "$i" | sponge "$i"
+        done
+    fi
+}
+
+cp -p "%{S:2}" licenses.list.expected
+fix_license_list licenses.list.expected licenses.list
+diff -u licenses.list.expected licenses.list
 
 # Check that archive.include_files works
 test -f test_include_files.txt

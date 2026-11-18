@@ -40,6 +40,7 @@ test:
       libicu-devel
       libxml2-devel
       libxslt-devel
+      moreutils
       python3-devel
       python3-pip
       redhat-rpm-config
