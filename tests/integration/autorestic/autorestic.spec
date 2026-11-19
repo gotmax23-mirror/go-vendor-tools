@@ -27,7 +27,13 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        autorestic-%{version}-vendor.tar.xz
 Source2:        go-vendor-tools.toml
+%if 0%{?rhel} == 9
+Source3:        expected-licenses.list.rhel9
+%elif 0%{?rhel} == 10
+Source3:        expected-licenses.list.rhel10
+%else
 Source3:        expected-licenses.list
+%endif
 Source4:        scancode_go-vendor-tools.toml
 
 BuildRequires:  go-vendor-tools
